@@ -1,0 +1,81 @@
+# ============================
+# .NET Core / Visual Studio
+# ============================
+# Build outputs
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio code workspace
+.vs/
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+
+# Publish output
+publish/
+
+# Logs
+*.log
+
+# Database files
+*.mdf
+*.ldf
+*.sqlite
+
+# ============================
+# Angular / Node.js
+# ============================
+# Dependencies
+node_modules/
+
+# Compiled output
+dist/
+tmp/
+out-tsc/
+
+# Angular build cache
+.angular/cache/
+
+# SystemJS cache
+jspm_packages/
+
+# Coverage reports
+coverage/
+
+# IDE configs
+.idea/
+.vscode/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Environment files (uncomment if you keep secrets in env files)
+# src/environments/*.ts
+
+# Misc
+*.tgz
+.DS_Store
+Thumbs.db

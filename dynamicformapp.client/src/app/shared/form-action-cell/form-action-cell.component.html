@@ -1,0 +1,44 @@
+<div class="">
+  <button
+    mat-icon-button
+    matTooltip="Copy Link"
+    (click)="copyLink()"
+    color="primary"
+  >
+    <mat-icon class="icon-fix">content_copy</mat-icon>
+  </button>
+
+  <button mat-icon-button matTooltip="View" (click)="view()" color="primary">
+    <mat-icon class="icon-fix">visibility</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Edit" (click)="edit()">
+    <mat-icon class="icon-fix">edit</mat-icon>
+  </button>
+  <!-- <button
+    mat-icon-button
+    matBadge="{{ params.data.responseCount || 0 }}"
+    matBadgeColor="accent"
+    matTooltip="Responses"
+    (click)="responses()"
+  >
+    <mat-icon>list_alt</mat-icon>
+  </button> -->
+
+  <button
+    mat-icon-button
+    color="warn"
+    matTooltip="View Responses"
+    (click)="responses()"
+  >
+    <span
+      *ngIf="params.data.responseCount > 0"
+      matBadge="{{ params.data.responseCount }}"
+      matBadgeColor="warn"
+      matBadgeOverlap="true"
+    ></span>
+    <mat-icon class="icon-fix">list_alt</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Delete" color="warn" (click)="delete()">
+    <mat-icon class="icon-fix">delete</mat-icon>
+  </button>
+</div>

@@ -1,0 +1,25 @@
+<div class="container py-4">
+  <h2>🧾 Responses</h2>
+  <div class="text-end mb-3">
+    <button mat-raised-button color="primary" (click)="exportToExcel()">
+      <mat-icon class="me-1">download</mat-icon>
+      Export Responses
+    </button>
+  </div>
+
+  <div class="row" *ngIf="responses.length > 0">
+    <div class="col-12">
+      <ag-grid-angular
+        class="ag-theme-material w-100 h-500"
+        [rowData]="rows"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        rowSelection="single"
+      ></ag-grid-angular>
+    </div>
+  </div>
+
+  <div *ngIf="responses.length === 0" class="alert alert-info">
+    No responses yet.
+  </div>
+</div>

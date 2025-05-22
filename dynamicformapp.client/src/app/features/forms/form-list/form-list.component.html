@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="fw-semibold mb-0">
+    <mat-icon class="me-2 text-primary">description</mat-icon>
+    Saved Forms
+  </h2>
+  <span class="d-flex justify-content-between">
+    <button mat-raised-button color="primary" routerLink="/admin/forms/new">
+      <mat-icon class="me-1">add</mat-icon> New Form
+    </button>
+    <div class="text-end mb-3 ms-2">
+      <button mat-raised-button color="primary" (click)="exportToExcel()">
+        <mat-icon class="me-1">download</mat-icon>
+        Export Forms
+      </button>
+    </div>
+  </span>
+</div>
+<mat-card class="p-3 shadow-sm rounded">
+  <mat-card-content class="p-0">
+    <ag-grid-angular
+      class="ag-theme-material w-100 h-500"
+      [rowData]="forms"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [pagination]="true"
+      [paginationPageSize]="10"
+      [context]="context"
+    ></ag-grid-angular>
+  </mat-card-content>
+</mat-card>

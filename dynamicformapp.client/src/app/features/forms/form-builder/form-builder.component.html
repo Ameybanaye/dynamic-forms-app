@@ -1,0 +1,24 @@
+<div class="d-flex vh-100 overflow-hidden">
+  <!-- Left: Builder (scrollable) -->
+  <div class="flex-fill overflow-auto p-3 border-end">
+    <app-form-builder-editor [form]="form"></app-form-builder-editor>
+
+    <div class="row">
+      <div class="col-12 text-center">
+        <button mat-raised-button color="primary" (click)="submitForm()">
+          Save Form
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Preview (sticky) -->
+  <div
+    class="flex-shrink-0"
+    style="width: 40%; max-width: 480px; padding: 1rem"
+  >
+    <app-form-builder-preview
+      [formData]="form.value"
+    ></app-form-builder-preview>
+  </div>
+</div>

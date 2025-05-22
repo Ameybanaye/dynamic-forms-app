@@ -1,0 +1,177 @@
+<div class="container py-5" *ngIf="!formSubmitted && formDefinition">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="d-flex flex-row-reverse mb-2">
+            <img src="../assets/logo.png" class="mh-200 rounded" alt="" />
+          </div>
+          <div class="text-center">
+            <img
+              src="{{ getBannerUrl(formDefinition?.bannerUrl) }}"
+              class="rounded img-fluid"
+              alt=""
+            />
+          </div>
+          <h3 class="mb-3 text-primary">{{ formDefinition?.title }}</h3>
+          <p class="text-muted">{{ formDefinition?.description }}</p>
+
+          <form [formGroup]="formGroup" (ngSubmit)="submit()">
+            <div class="mb-3" *ngFor="let field of formDefinition?.fields">
+              <label class="form-label fw-bold">{{ field.label }}</label>
+
+              <ng-container [ngSwitch]="field.type">
+                <!-- Dropdown -->
+                <select
+                  *ngSwitchCase="'dropdown'"
+                  class="form-select"
+                  [formControlName]="field.label"
+                >
+                  <option value="" disabled selected>Select...</option>
+                  <option
+                    *ngFor="let opt of field.options"
+                    [value]="getOptionValue(opt)"
+                  >
+                    {{ getOptionValue(opt) }}
+                  </option>
+                </select>
+
+                <div
+                  *ngSwitchCase="'checkbox'"
+                  [formArrayName]="field.label"
+                  class="mb-3"
+                >
+                  <!-- <label class="form-label fw-bold">{{ field.label }}</label> -->
+                  <div
+                    *ngFor="
+                      let ctrl of getFormArrayControls(field.label!);
+                      let j = index
+                    "
+                    class="form-check"
+                  >
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      [formControlName]="j"
+                    />
+                    <label class="form-check-label">{{
+                      field.options[j].value
+                    }}</label>
+                  </div>
+                  <div
+                    class="text-danger small"
+                    *ngIf="
+                      formGroup.get(field.label!)?.touched &&
+                      formGroup.get(field.label!)?.hasError('required')
+                    "
+                  >
+                    Please select at least one.
+                  </div>
+                </div>
+
+                <input
+                  *ngSwitchCase="'text'"
+                  [type]="getInputType(field.label!)"
+                  class="form-control"
+                  [formControlName]="field.label"
+                  [placeholder]="field.label"
+                  [attr.maxLength]="isPhoneField(field.label!) ? 10 : null"
+                />
+
+                <div *ngSwitchCase="'numeric'" class="mb-3">
+                  <div class="input-group">
+                    <span class="input-group-text">₹</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      [formControlName]="field.label"
+                      [attr.min]="field.min"
+                      [attr.max]="field.max"
+                      placeholder="Enter amount"
+                    />
+                  </div>
+                </div>
+              </ng-container>
+              <div
+                class="text-danger small"
+                *ngIf="
+                  formGroup.get(field.label!)?.touched &&
+                  formGroup.get(field.label!)?.hasError('min')
+                "
+              >
+                Minimum allowed value is {{ field.min }}
+              </div>
+              <div
+                class="text-danger small"
+                *ngIf="
+                  formGroup.get(field.label!)?.touched &&
+                  formGroup.get(field.label!)?.hasError('max')
+                "
+              >
+                Maximum allowed value is {{ field.max }}
+              </div>
+              <div
+                class="text-danger small"
+                *ngIf="
+                  formGroup.get(field.label!)?.touched &&
+                  formGroup.get(field.label!)?.hasError('required')
+                "
+              >
+                This field is required
+              </div>
+              <div
+                class="text-danger small"
+                *ngIf="
+                  formGroup.get(field.label!)?.touched &&
+                  formGroup.get(field.label!)?.hasError('email')
+                "
+              >
+                Please enter a valid email address.
+              </div>
+
+              <div
+                class="text-danger small"
+                *ngIf="
+                  isMobileNumberField(field.label!) &&
+                  formGroup.get(field.label!)?.touched &&
+                  formGroup.get(field.label!)?.hasError('pattern')
+                "
+              >
+                Please enter a valid number (10 digits).
+              </div>
+
+              <div
+                *ngIf="
+                  field.type === 'text' &&
+                  formGroup.get(field.label!)?.hasError('pattern')
+                "
+              >
+                {{ getPatternErrorMessage(field) }}
+              </div>
+            </div>
+            <hr class="my-4" />
+
+            <div *ngIf="formDefinition?.privacyPolicy" class="text-muted small">
+              <strong>Privacy Policy:</strong><br />
+              {{ formDefinition?.privacyPolicy }}
+            </div>
+            <div class="text-end mt-4">
+              <button
+                type="submit"
+                class="btn btn-primary w-100"
+                [disabled]="formGroup.invalid"
+              >
+                Submit Response
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="formSubmitted" class="alert alert-success text-center p-4">
+  <h4>✅ Thank you!</h4>
+  <p>Your response has been submitted.</p>
+</div>

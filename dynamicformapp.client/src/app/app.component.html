@@ -1,0 +1,90 @@
+﻿<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    mode="side"
+    class="sidenav"
+    fixedInViewport
+    [opened]="isLargeScreen && adminMode"
+  >
+    <div class="sidenav-header">
+      <img
+        src="../assets/logo.png"
+        alt="My App Logo"
+        class="sidenav-logo img-fluid p-1"
+      />
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/home" routerLinkActive="active-link">
+        <div class="d-inline-flex align-middle">
+          <fa-icon [icon]="faHome" class="pe-3"></fa-icon>
+          <span matLine class="nav-name">Home</span>
+        </div>
+      </a>
+      <a
+        mat-list-item
+        routerLink="/admin/roles"
+        class="d-none"
+        routerLinkActive="active-link"
+      >
+        <div class="d-inline-flex align-middle">
+          <fa-icon [icon]="faUserShield" class="pe-3"></fa-icon>
+          <span matLine class="nav-name">Roles</span>
+        </div>
+      </a>
+      <a
+        mat-list-item
+        routerLink="/home"
+        class="d-none"
+        routerLinkActive="active-link"
+      >
+        <div class="d-inline-flex align-middle">
+          <fa-icon [icon]="faUsers" class="pe-3"></fa-icon>
+          <span matLine class="nav-name">Users</span>
+        </div>
+      </a>
+
+      <a mat-list-item routerLink="/admin/forms" routerLinkActive="active-link">
+        <div class="d-inline-flex align-middle">
+          <fa-icon [icon]="iconForms" class="pe-3"></fa-icon>
+          <span matLine class="nav-name">Forms</span>
+        </div>
+      </a>
+      <a
+        mat-list-item
+        routerLink="change-password"
+        routerLinkActive="active-link"
+      >
+        <div class="d-inline-flex align-middle">
+          <fa-icon [icon]="iconForms" class="pe-3"></fa-icon>
+          <span matLine class="nav-name">Change Password</span>
+        </div>
+      </a>
+
+      <a mat-list-item (click)="logout()">
+        <div class="d-inline-flex align-middle">
+          <fa-icon [icon]="iconLogout" class="pe-3"></fa-icon>
+          <span matLine class="nav-name">Logout</span>
+        </div>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" *ngIf="adminMode">
+      <button
+        type="button"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="!isLargeScreen"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Dynamic Forms App</span>
+    </mat-toolbar>
+
+    <div class="container-fluid content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-12">
+    <h2 class="d-inline-flex">Active Roles</h2>
+    <button
+      mat-raised-button
+      color="primary"
+      class="float-end"
+      (click)="openCreateDialog()"
+    >
+      Create Role
+    </button>
+  </div>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Role</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let role of roles">
+      <td>{{ role.name }}</td>
+      <td>
+        <button mat-icon-button color="primary" (click)="openEditDialog(role)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteRole(role.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
