@@ -80,14 +80,13 @@
 
                 <div *ngSwitchCase="'numeric'" class="mb-3">
                   <div class="input-group">
-                    <span class="input-group-text">₹</span>
                     <input
-                      type="number"
+                      [type]="field.isPhoneNumber ? 'tel' : 'number'"
                       class="form-control"
                       [formControlName]="field.label"
                       [attr.min]="field.min"
                       [attr.max]="field.max"
-                      placeholder="Enter amount"
+                      placeholder="Enter {{ field.label }}"
                     />
                   </div>
                 </div>
@@ -119,6 +118,20 @@
               >
                 This field is required
               </div>
+
+              <!-- Phone pattern -->
+              <div
+                class="text-danger small"
+                *ngIf="
+                  field.type === 'numeric' &&
+                  field.isPhoneNumber &&
+                  formGroup.get(field.label!)?.touched &&
+                  formGroup.get(field.label!)?.hasError('pattern')
+                "
+              >
+                Please enter a valid 10-digit mobile number.
+              </div>
+
               <div
                 class="text-danger small"
                 *ngIf="

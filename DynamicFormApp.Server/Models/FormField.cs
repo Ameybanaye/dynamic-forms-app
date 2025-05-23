@@ -20,4 +20,6 @@ public class FormField : BaseEntity
     public string ValidationMode { get; set; } = "open";
 
     public string? CustomSpecialChars { get; set; }
+
+    public bool IsPhoneNumber { get; set; }
 }

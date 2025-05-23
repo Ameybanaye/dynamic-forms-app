@@ -6,6 +6,7 @@ import { FormApiService, FormField } from '../../../core/api/form-api.service.ts
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingDialogComponent } from '../../../shared/loading-dialog/loading-dialog.component';
+import { minMaxValidator } from '../validators/min-max.validator';
 
 @Component({
   selector: 'app-form-builder-editor',
@@ -23,22 +24,33 @@ export class FormBuilderEditorComponent {
   }
 
   addField(type: 'dropdown' | 'checkbox' | 'text' | 'numeric') {
-    this.fields.push(this.fb.group({
-      label: ['', Validators.required],
-      type: [type],
-      isRequired: [false],
-      options: (type === 'dropdown' || type === 'checkbox')
-        ? this.fb.array([
-          this.fb.control('Option 1'),
-          this.fb.control('Option 2')
-        ])
-        : this.fb.array([]),
-      min: [null],
-      max: [null],
-      allowAlphabetOnly: [false],
-      validationMode: ['open'],
-      customSpecialChars: [''],
-    }));
+    // 1) build the group
+    const fg = this.fb.group(
+      {
+        label: ['', Validators.required],
+        type: [type],
+        isRequired: [false],
+        options: (type === 'dropdown' || type === 'checkbox')
+          ? this.fb.array([
+            this.fb.control('Option 1'),
+            this.fb.control('Option 2'),
+          ])
+          : this.fb.array([]),
+        min: [null],
+        max: [null],
+        allowAlphabetOnly: [false],
+        validationMode: ['open'],
+        customSpecialChars: [''],
+        isPhoneNumber: [false],
+      },
+      {
+        // 2) attach the cross-field validator only for numeric
+        validators: type === 'numeric' ? minMaxValidator : null
+      }
+    );
+
+    // 3) now push it
+    this.fields.push(fg);
   }
 
   removeField(index: number) {
@@ -136,5 +148,18 @@ export class FormBuilderEditorComponent {
     });
   }
 
+  onPhoneToggle(index: number) {
+    const fieldGroup = this.fields.at(index) as FormGroup;
+    const isPhone = fieldGroup.get('isPhoneNumber')?.value;
+
+    if (isPhone) {
+      fieldGroup.patchValue({ min: null, max: null });
+      fieldGroup.get('min')?.disable();
+      fieldGroup.get('max')?.disable();
+    } else {
+      fieldGroup.get('min')?.enable();
+      fieldGroup.get('max')?.enable();
+    }
+  }
 
 }

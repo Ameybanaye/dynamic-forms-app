@@ -57,10 +57,10 @@ export class FormSubmissionComponent implements OnInit {
         if (this.isMobileNumberField(label)) {
           validators.push(Validators.pattern(/^[0-9]{10}$/)); // 10-digit numeric pattern
         }
-
+        //
         switch (f.validationMode) {
           case 'alpha':
-            validators.push(Validators.pattern(/^[A-Za-z\s_-]+$/));
+            validators.push(Validators.pattern(/^[\p{L}\s]+$/u));
             break;
           case 'alpha-special':
             const specialChars = f.customSpecialChars ?? '';
@@ -81,9 +81,16 @@ export class FormSubmissionComponent implements OnInit {
       }
       else if (f.type === 'numeric') {
         const validators = [];
-        if (f.isRequired) validators.push(Validators.required);
-        if (f.min != null) validators.push(Validators.min(f.min));
-        if (f.max != null) validators.push(Validators.max(f.max));
+
+        if (f.isPhoneNumber) {
+          validators.push(Validators.pattern(/^[6-9]\d{9}$/));
+        } else {
+
+          if (f.isRequired) validators.push(Validators.required);
+          if (f.min != null) validators.push(Validators.min(f.min));
+          if (f.max != null) validators.push(Validators.max(f.max));
+        }
+
 
         group[f.label!] = [null, validators];
       }
@@ -94,6 +101,7 @@ export class FormSubmissionComponent implements OnInit {
   }
 
   isMobileNumberField(label: string): boolean {
+    return false;
     const lower = label.toLowerCase();
     return lower.includes('phone') || lower.includes('mobile') || lower.includes('number');
   }

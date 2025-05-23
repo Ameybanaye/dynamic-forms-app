@@ -117,16 +117,32 @@
                       formControlName="min"
                       min="0"
                     />
+
+                    <mat-error *ngIf="field.hasError('minGreaterThanMax')">
+                      Max must be ≥ Min
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="fill" class="flex-grow-1">
                     <mat-label>Max</mat-label>
                     <input matInput type="number" formControlName="max" />
+                    <mat-error
+                      *ngIf="field.get('max')?.hasError('minGreaterThanMax')"
+                    >
+                      Max must be ≥ Min
+                    </mat-error>
                   </mat-form-field>
                 </div>
 
                 <mat-checkbox formControlName="isRequired"
                   >Required</mat-checkbox
                 >
+                <mat-checkbox
+                  *ngIf="field.get('type')!.value === 'numeric'"
+                  formControlName="isPhoneNumber"
+                  (change)="onPhoneToggle(i)"
+                >
+                  Validate as 10-digit mobile number
+                </mat-checkbox>
                 <hr />
                 <div class="row">
                   <div class="col-5">

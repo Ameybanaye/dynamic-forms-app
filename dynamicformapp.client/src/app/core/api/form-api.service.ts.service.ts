@@ -13,6 +13,7 @@ export interface FormField {
   allowAlphabetOnly: boolean;
   validationMode: 'open' | 'alpha' | 'alpha-special' | 'alpha-numeric';
   customSpecialChars?: string;
+  isPhoneNumber: false,
 }
 
 export interface FormModel {
